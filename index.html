@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Leo ❤️</title>
+
+<style>
+body {
+    margin: 0;
+    font-family: 'Georgia', serif;
+    background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+    text-align: center;
+    overflow-x: hidden;
+}
+
+/* SOBRE */
+.sobre-container {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sobre {
+    width: 200px;
+    height: 120px;
+    background: #e91e63;
+    position: relative;
+    cursor: pointer;
+}
+
+.sobre:before {
+    content: "";
+    position: absolute;
+    top: -60px;
+    left: 0;
+    border-left: 100px solid transparent;
+    border-right: 100px solid transparent;
+    border-bottom: 60px solid #e91e63;
+    transition: 1s;
+}
+
+.sobre.abierto:before {
+    transform: rotateX(180deg);
+}
+
+/* CARTA */
+.carta {
+    display: none;
+    max-width: 750px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.nombre span {
+    opacity: 0;
+    animation: aparecer 0.5s forwards;
+}
+
+@keyframes aparecer {
+    to {opacity: 1;}
+}
+
+p {
+    font-size: 18px;
+    line-height: 1.7;
+    text-align: justify;
+}
+
+/* MAPA */
+iframe {
+    width: 100%;
+    height: 250px;
+    border-radius: 15px;
+    margin-top: 15px;
+}
+
+/* CORAZONES */
+.corazon {
+    position: fixed;
+    bottom: -10px;
+    font-size: 20px;
+    animation: flotar 6s linear infinite;
+}
+
+@keyframes flotar {
+    to { transform: translateY(-100vh);}
+}
+
+/* BRILLOS */
+.estrella {
+    position: fixed;
+    width: 5px;
+    height: 5px;
+    background: white;
+    border-radius: 50%;
+    animation: brillar 2s linear infinite;
+}
+
+@keyframes brillar {
+    0% { opacity: 0; transform: scale(0);}
+    50% { opacity: 1; transform: scale(1.5);}
+    100% { opacity: 0; transform: scale(0);}
+}
+
+/* LATIDO */
+.latido {
+    display: inline-block;
+    animation: latir 1.5s infinite;
+}
+
+@keyframes latir {
+    0% { transform: scale(1);}
+    50% { transform: scale(1.2);}
+    100% { transform: scale(1);}
+}
+
+/* FONDO ESTRELLAS */
+.estrellas {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: -1;
+}
+
+.estrella-bg {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    animation: parpadear 2s infinite;
+}
+
+@keyframes parpadear {
+    0%,100% { opacity: 0.2;}
+    50% { opacity: 1;}
+}
+
+/* MENSAJE FINAL */
+.final {
+    display: none;
+    font-size: 40px;
+    color: #e91e63;
+    margin-top: 40px;
+    animation: aparecerFinal 2s ease;
+}
+
+@keyframes aparecerFinal {
+    from {opacity: 0; transform: scale(0.5);}
+    to {opacity: 1; transform: scale(1);}
+}
+</style>
+</head>
+
+<body>
+
+<div class="estrellas" id="estrellas"></div>
+
+<div class="sobre-container" id="inicio">
+    <div class="sobre" id="sobre" onclick="abrirCarta()"></div>
+</div>
+
+<audio id="musica" loop>
+<source src="https://www.bensound.com/bensound-music/bensound-love.mp3">
+</audio>
+
+<div class="carta" id="carta">
+
+<h1 id="nombre" class="latido"></h1>
+
+<p>Mi corazón,</p>
+
+<p>
+Jamás se me va a olvidar la primera vez que nos vimos en ese andén en Indios Verdes…  
+ese momento quedó guardado en mi alma como uno de los más hermosos de mi vida.
+</p>
+
+<p>
+Desde ahí empezó algo tan bonito… algo que hoy se ha convertido en una de las cosas más importantes para mí: tú, Leo.
+</p>
+
+<iframe 
+src="https://maps.google.com/maps?q=Indios%20Verdes&t=&z=15&ie=UTF8&iwloc=&output=embed">
+</iframe>
+
+<p>
+Amo tus ojos, tu risa, tus besos, tus abrazos…  
+amo cada parte de ti, porque eres tú, y eso te hace completamente único.
+</p>
+
+<p>
+Gracias por existir, por amarme y por hacerme sentir algo tan real.  
+Te adoro con todo mi corazón <span class="latido">❤️</span>
+</p>
+
+<div id="contador" style="color:#e91e63; font-size:20px;"></div>
+
+<div class="final" id="final">
+    TE AMO LEO ❤️
+</div>
+
+</div>
+
+<script>
+
+const nombre = "Leo ❤️";
+const fechaInicio = new Date("2025-02-15");
+
+// abrir carta
+function abrirCarta(){
+    document.getElementById("sobre").classList.add("abierto");
+    setTimeout(()=>{
+        document.getElementById("inicio").style.display="none";
+        document.getElementById("carta").style.display="block";
+        animarNombre();
+        document.getElementById("musica").play();
+        voz();
+    },800);
+}
+
+// nombre animado
+function animarNombre(){
+    const cont = document.getElementById("nombre");
+    nombre.split("").forEach((l,i)=>{
+        const span=document.createElement("span");
+        span.textContent=l;
+        span.style.animationDelay=i*0.2+"s";
+        cont.appendChild(span);
+    });
+}
+
+// voz
+function voz(){
+    const msg=new SpeechSynthesisUtterance("Te amo Leo, mi corazón");
+    msg.lang="es-MX";
+    msg.rate=0.9;
+    speechSynthesis.speak(msg);
+}
+
+// corazones
+setInterval(()=>{
+    const c=document.createElement("div");
+    c.className="corazon";
+    c.innerHTML="💖";
+    c.style.left=Math.random()*100+"vw";
+    document.body.appendChild(c);
+    setTimeout(()=>c.remove(),6000);
+},300);
+
+// brillos
+setInterval(()=>{
+    const e=document.createElement("div");
+    e.className="estrella";
+    e.style.left=Math.random()*100+"vw";
+    e.style.top=Math.random()*100+"vh";
+    document.body.appendChild(e);
+    setTimeout(()=>e.remove(),2000);
+},200);
+
+// estrellas fondo
+for(let i=0;i<100;i++){
+    const s=document.createElement("div");
+    s.className="estrella-bg";
+    s.style.left=Math.random()*100+"vw";
+    s.style.top=Math.random()*100+"vh";
+    document.getElementById("estrellas").appendChild(s);
+}
+
+// contador
+setInterval(()=>{
+    const diff=new Date()-fechaInicio;
+    const dias=Math.floor(diff/(1000*60*60*24));
+    document.getElementById("contador").innerHTML=
+    `Llevamos juntos 💕 ${dias} días`;
+},1000);
+
+// mensaje final
+setTimeout(()=>{
+    document.getElementById("final").style.display="block";
+},8000);
+
+</script>
+
+</body>
+</html>
